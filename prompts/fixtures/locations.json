@@ -1,0 +1,282 @@
+[
+    {
+        "pk": "1",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on the moon"
+        }
+    },
+    {
+        "pk": "2",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in space"
+        }
+    },
+    {
+        "pk": "3",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on Mars"
+        }
+    },
+    {
+        "pk": "4",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on another planet"
+        }
+    },
+    {
+        "pk": "5",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on a comet"
+        }
+    },
+    {
+        "pk": "6",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on an asteroid"
+        }
+    },
+    {
+        "pk": "7",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a spaceship"
+        }
+    },
+    {
+        "pk": "8",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in orbit"
+        }
+    },
+    {
+        "pk": "9",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in the desert"
+        }
+    },
+    {
+        "pk": "10",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a forest"
+        }
+    },
+    {
+        "pk": "11",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on the beach"
+        }
+    },
+    {
+        "pk": "12",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on an island"
+        }
+    },
+    {
+        "pk": "13",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a volcano"
+        }
+    },
+    {
+        "pk": "14",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in the ocean"
+        }
+    },
+    {
+        "pk": "15",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on a street"
+        }
+    },
+    {
+        "pk": "16",
+        "model": "prompts.location",
+        "fields": {
+            "location": "by a river"
+        }
+    },
+    {
+        "pk": "17",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on a mountain"
+        }
+    },
+    {
+        "pk": "18",
+        "model": "prompts.location",
+        "fields": {
+            "location": "by a lake"
+        }
+    },
+    {
+        "pk": "19",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on an iceberg"
+        }
+    },
+    {
+        "pk": "20",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a cave"
+        }
+    },
+    {
+        "pk": "21",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a field"
+        }
+    },
+    {
+        "pk": "22",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a jungle"
+        }
+    },
+    {
+        "pk": "23",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on a pirate ship"
+        }
+    },
+    {
+        "pk": "24",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on a cruise liner"
+        }
+    },
+    {
+        "pk": "25",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on a plane"
+        }
+    },
+    {
+        "pk": "26",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a lorry"
+        }
+    },
+    {
+        "pk": "27",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on a train"
+        }
+    },
+    {
+        "pk": "28",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a theatre"
+        }
+    },
+    {
+        "pk": "29",
+        "model": "prompts.location",
+        "fields": {
+            "location": "on stage"
+        }
+    },
+    {
+        "pk": "30",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a cinema"
+        }
+    },
+    {
+        "pk": "31",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a supermarket"
+        }
+    },
+    {
+        "pk": "32",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a car park"
+        }
+    },
+    {
+        "pk": "33",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a stadium"
+        }
+    },
+    {
+        "pk": "34",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a library"
+        }
+    },
+    {
+        "pk": "35",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a prison"
+        }
+    },
+    {
+        "pk": "36",
+        "model": "prompts.location",
+        "fields": {
+            "location": "at a fairground"
+        }
+    },
+    {
+        "pk": "37",
+        "model": "prompts.location",
+        "fields": {
+            "location": "at a circus"
+        }
+    },
+    {
+        "pk": "38",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a temple"
+        }
+    },
+    {
+        "pk": "39",
+        "model": "prompts.location",
+        "fields": {
+            "location": "by a pyramid"
+        }
+    },
+    {
+        "pk": "40",
+        "model": "prompts.location",
+        "fields": {
+            "location": "in a castle"
+        }
+    }
+]

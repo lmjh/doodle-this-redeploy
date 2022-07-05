@@ -7,3 +7,22 @@ __pycache__/
 node_modules/
 .github/
 cloudinary_python.txt
+
+# environment variables
+.env
+
+# sqlite development database
+*.sqlite3
+
+# test coverage files
+.coverage
+htmlcov/
+
+# user generated drawings
+media/drawings/
+
+# product images
+media/products/
+
+# product images
+media/order-drawings/

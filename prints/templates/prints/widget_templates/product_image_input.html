@@ -1,0 +1,35 @@
+{% load static %}
+{% if widget.is_initial %}
+<div class="clear-left">
+    {{ widget.initial_text }}:
+    <a href="{{ widget.value.url }}">{{ widget.value }}</a>
+</div>
+    {% if not widget.required %}
+        <input type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}" {% if widget.attrs.disabled %}
+            disabled{% endif %}>
+        <label for="{{ widget.checkbox_id }}">{{ widget.clear_checkbox_label }}</label>
+    {% endif %}
+    <br>
+    <!-- add div to hold image preview -->
+    <div id="image-holder">
+        <!-- add preview of current image -->
+        <img src="{{ widget.value.url }}" id="preview" alt="Product image preview">
+        <!-- add overlay with inline svg -->
+        <svg id="overlay" viewBox="0 0 1280 720" aria-label="Product image preview overlay">
+            <rect x="0" y="0" width="1280" height="720" style="fill:rgb(255,173,39);fill-opacity:0.73;"/>
+        </svg>
+    </div>
+    <br>
+    {{ widget.input_text }}:
+{% else %}
+<!-- if no initial values, add image holder without preview image -->
+<div id="image-holder">
+    <!-- set overlay height to 0 -->
+    <svg id="overlay" viewBox="0 0 1280 720" style="visibility: hidden" aria-label="Product image preview overlay">
+        <rect x="0" y="0" width="1280" height="720" style="fill:rgb(255,173,39);fill-opacity:0.73;"/>
+    </svg>
+</div>
+
+{% endif %}
+
+<input type="{{ widget.type }}" name="{{ widget.name }}" {% include "django/forms/widgets/attrs.html" %}>

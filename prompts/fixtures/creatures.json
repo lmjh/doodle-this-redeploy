@@ -1,0 +1,317 @@
+[
+    {
+        "pk": "1",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "an",
+            "creature": "athlete",
+            "plural": "athletes"
+        }
+    },
+    {
+        "pk": "2",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "firefighter",
+            "plural": "firefighters"
+        }
+    },
+    {
+        "pk": "3",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "doctor",
+            "plural": "doctors"
+        }
+    },
+    {
+        "pk": "4",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "police officer",
+            "plural": "police officers"
+        }
+    },
+    {
+        "pk": "5",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "scientist",
+            "plural": "scientists"
+        }
+    },
+    {
+        "pk": "6",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "tycoon",
+            "plural": "tycoons"
+        }
+    },
+    {
+        "pk": "7",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "teacher",
+            "plural": "teachers"
+        }
+    },
+    {
+        "pk": "8",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "an",
+            "creature": "actor",
+            "plural": "actors"
+        }
+    },
+    {
+        "pk": "9",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "nurse",
+            "plural": "nurses"
+        }
+    },
+    {
+        "pk": "10",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "carpenter",
+            "plural": "carpenters"
+        }
+    },
+    {
+        "pk": "11",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "chef",
+            "plural": "chefs"
+        }
+    },
+    {
+        "pk": "12",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "pilot",
+            "plural": "pilots"
+        }
+    },
+    {
+        "pk": "13",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "an",
+            "creature": "artist",
+            "plural": "artists"
+        }
+    },
+    {
+        "pk": "14",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "builder",
+            "plural": "builders"
+        }
+    },
+    {
+        "pk": "15",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "postman",
+            "plural": "postmen"
+        }
+    },
+    {
+        "pk": "16",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "pirate",
+            "plural": "pirates"
+        }
+    },
+    {
+        "pk": "17",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "astronaut",
+            "plural": "astronauts"
+        }
+    },
+    {
+        "pk": "18",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "musician",
+            "plural": "musicians"
+        }
+    },
+    {
+        "pk": "19",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "snake",
+            "plural": "snakes"
+        }
+    },
+    {
+        "pk": "20",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "monkey",
+            "plural": "monkeys"
+        }
+    },
+    {
+        "pk": "21",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "gorilla",
+            "plural": "gorillas"
+        }
+    },
+    {
+        "pk": "22",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "dog",
+            "plural": "dogs"
+        }
+    },
+    {
+        "pk": "23",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "cat",
+            "plural": "cats"
+        }
+    },
+    {
+        "pk": "24",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "an",
+            "creature": "elephant",
+            "plural": "elephants"
+        }
+    },
+    {
+        "pk": "25",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "dinosaur",
+            "plural": "dinosaurs"
+        }
+    },
+    {
+        "pk": "26",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "sheep",
+            "plural": "sheep"
+        }
+    },
+    {
+        "pk": "27",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "cow",
+            "plural": "cows"
+        }
+    },
+    {
+        "pk": "28",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "pig",
+            "plural": "pigs"
+        }
+    },
+    {
+        "pk": "29",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "chicken",
+            "plural": "chickens"
+        }
+    },
+    {
+        "pk": "30",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "bunny",
+            "plural": "bunnies"
+        }
+    },
+    {
+        "pk": "31",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "lizard",
+            "plural": "lizards"
+        }
+    },
+    {
+        "pk": "32",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "fish",
+            "plural": "fish"
+        }
+    },
+    {
+        "pk": "33",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "shark",
+            "plural": "sharks"
+        }
+    },
+    {
+        "pk": "34",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "an",
+            "creature": "octopus",
+            "plural": "octopuses"
+        }
+    },
+    {
+        "pk": "35",
+        "model": "prompts.creature",
+        "fields": {
+            "determiner": "a",
+            "creature": "squid",
+            "plural": "squids"
+        }
+    }
+]

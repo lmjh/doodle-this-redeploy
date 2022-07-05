@@ -1,0 +1,188 @@
+/* INTRO.JS STYLES */
+
+.introjs-tooltip,
+.introjs-tooltip .customIntroJs .introjs-floating {
+    color: var(--text-light);
+    background: var(--bg-modal);
+    border: 1px solid var(--border-modal);
+}
+
+.customIntroJs .introjs-skipbutton {
+    color: var(--muted-text-light);
+}
+
+.customIntroJs .introjs-skipbutton:hover {
+    color: var(--text-light);
+}
+
+.customIntroJs .introjs-skipbutton:focus,
+.customIntroJs .introjs-skipbutton:focus-visible {
+    color: var(--text-light);
+    outline: 1px solid;
+    outline-color: var(--brand-primary-color);
+}
+
+.customIntroJs .introjs-dontShowAgain label {
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+}
+
+.customIntroJs .introjs-dontShowAgain input {
+    width: 15px;
+    height: 15px;
+    color: var(--brand-primary-color);
+}
+
+.customIntroJs .introjs-tooltip-header {
+    border-bottom: 1px solid var(--border-modal);
+}
+
+.customIntroJs .introjs-tooltipbuttons {
+    display: flex;
+    border-top: 1px solid var(--border-modal);
+}
+
+.customIntroJs .introjs-bullets ul li a,
+.customIntroJs .introjs-bullets ul li a.active,
+.customIntroJs .introjs-bullets ul li a:hover {
+    background: var(--brand-primary-color);
+}
+
+.customIntroJs .introjs-bullets ul li a:focus,
+.customIntroJs .introjs-bullets ul li a:focus-visible {
+    outline: 1px solid;
+    outline-color: var(--brand-primary-color);
+    box-shadow: 0 0 0 .25rem rgba(130, 138, 145, .5);
+}
+
+.customIntroJs .introjs-button,
+.customIntroJs .introjs-prevbutton,
+.customIntroJs .introjs-nextbutton,
+.customIntroJs .introjs-button .introjs-nextbutton,
+.customIntroJs .introjs-button .introjs-prevbutton {
+    font-family: 'Baloo 2', Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    background-color: var(--bg-grey);
+    border: none;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -7px rgba(0, 0, 0, 0.2);
+    text-shadow: none;
+    width: 100%;
+    text-align: center;
+}
+
+.customIntroJs .introjs-button:hover,
+.customIntroJs .introjs-prevbutton:hover,
+.customIntroJs .introjs-nextbutton:hover,
+.customIntroJs .introjs-button .introjs-nextbutton:hover,
+.customIntroJs .introjs-button .introjs-prevbutton:hover {
+    color: var(--text-dark);
+    background-color: var(--brand-primary-color);
+    border-color: var(--brand-primary-color);
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+.customIntroJs .introjs-nextbutton:focus,
+.customIntroJs .introjs-prevbutton:focus,
+.customIntroJs .introjs-nextbutton:focus-visible,
+.customIntroJs .introjs-prevbutton:focus-visible,
+.customIntroJs .introjs-button .introjs-nextbutton:focus,
+.customIntroJs .introjs-button .introjs-prevbutton:focus,
+.customIntroJs .introjs-button .introjs-nextbutton:focus-visible,
+.customIntroJs .introjs-button .introjs-prevbutton:focus-visible {
+    color: var(--text-dark);
+    box-shadow: 0 0 0 .25rem rgba(130, 138, 145, .5);
+}
+
+.customIntroJs .introjs-nextbutton,
+.customIntroJs .introjs-button .introjs-nextbutton {
+    margin-left: 5px;
+}
+
+.customIntroJs .introjs-prevbutton,
+.customIntroJs .introjs-button .introjs-prevbutton {
+    margin-right: 5px;
+}
+
+.customIntroJs .introjs-disabled,
+.customIntroJs .introjs-disabled:focus,
+.customIntroJs .introjs-disabled:hover,
+.customIntroJs .introjs-button .introjs-disabled,
+.customIntroJs .introjs-button .introjs-disabled:hover {
+    opacity: .65;
+    font-family: 'Baloo 2', Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--text-dark);
+    background-color: var(--bg-grey);
+    border: none;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -7px rgba(0, 0, 0, 0.2);
+    text-shadow: none;
+}
+
+.introjs-arrow {
+    border: 10px solid var(--bg-modal);
+}
+
+.introjs-arrow.top,
+.introjs-arrow.top-middle,
+.introjs-arrow.top-right {
+    border-color: transparent transparent var(--bg-modal);
+    top: -20px;
+    left: 20px;
+}
+
+.introjs-arrow.bottom,
+.introjs-arrow.bottom-middle,
+.introjs-arrow.bottom-right {
+    border-color: var(--bg-modal) transparent transparent;
+    bottom: -20px;
+    left: 20px;
+}
+
+.introjs-arrow.left,
+.introjs-arrow.right {
+    top: 20px;
+}
+
+.introjs-arrow.left-bottom,
+.introjs-arrow.right-bottom {
+    bottom: 20px;
+}
+
+.introjs-arrow.left,
+.introjs-arrow.left-bottom {
+    left: -20px;
+    border-color: transparent var(--bg-modal) transparent transparent;
+}
+
+.introjs-arrow.right,
+.introjs-arrow.right-bottom {
+    right: -20px;
+    border-color: transparent transparent transparent var(--bg-modal);
+}
+
+.tour-icon {
+    background-color: #ebebeb;
+    color: var(--text-dark);
+    border-radius: 50%;
+    height: 18px;
+    width: 18px;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+}
+
+@media (min-width: 576px) {
+
+    .introjs-tooltip,
+    .introjs-tooltip .customIntroJs .introjs-floating {
+        min-width: 350px;
+    }
+
+}

@@ -1,0 +1,22 @@
+#image-holder {
+    position: relative;
+    width: 50%;
+    overflow: hidden;
+}
+
+.col-12 #image-holder {
+    width: 100%;
+}
+
+#preview {
+    width: 100%;
+    height: auto;
+}
+
+#overlay {
+    position: absolute;
+}
+
+.clear-left {
+    clear: left;
+}

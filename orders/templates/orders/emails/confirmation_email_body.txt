@@ -1,0 +1,27 @@
+Hi {{ order.first_name }},
+
+Thanks for your recent order from Doodle This. We'll get your print to you as soon as we can.
+
+Your order details are:
+
+Order Number: {{ order.order_number }}
+Date: {{ order.date }}
+
+Order Cost: £{{ order.order_cost|floatformat:2 }}
+Delivery Cost: £{{ order.delivery_cost|floatformat:2 }}
+Grand Total: £{{ order.grand_total|floatformat:2 }}
+
+Full Name: {{ order.first_name }} {{ order.last_name }}
+Address 1: {{ order.address_1 }}
+Address 2: {% if order.address_2 %}{{ order.address_2 }}{% else %}N/A{% endif %}
+Town: {{ order.town }}
+County: {% if order.county %}{{ order.county }}{% else %}N/A{% endif %}
+Postcode: {{ order.postcode }}
+Country: {{ order.country }}
+
+Phone: {{ order.phone_number }}
+
+If you have any questions about your order, contact us at {{ contact_email }}.
+
+Thank you,
+Doodle This

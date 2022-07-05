@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block page_title %}Frequently Asked Questions - Doodle This{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-10 col-md-8 offset-1 offset-md-2">
+            <section class="content-panel p-3 mb-5 row" aria-label="Frequently Asked Questions">
+
+                <!-- section title -->
+                <h1 class="mb-5">Frequently Asked Questions</h1>
+
+                <!-- faq content -->
+                <div class="card faq-card px-0 mb-4">
+                    <h4 class="card-header faq-header">What is Doodle This?</h4>
+                    <div class="card-body">
+                        <p class="card-text">Doodle This is a website where you can draw anything you like in a smooth
+                            and intuitive online sketchbook, get ideas for drawings from randomly generated prompts,
+                            save your best work in a free account, or buy prints to show off your artistic talents.</p>
+                    </div>
+                </div>
+
+                <div class="card faq-card px-0 mb-4">
+                    <h4 class="card-header faq-header">How do I use the sketchbook?</h4>
+                    <div class="card-body">
+                        <p class="card-text">You can find the sketchbook on the <a
+                                href="{% url 'sketchbook' %}">sketchbook page</a>. We've tried to make it as easy and
+                            intuitive as possible to use the sketchbook and all of the drawing tools, but if you'd like
+                            some help you can push the "Help" button and take a tour of all of the sketchbook's
+                            features.</p>
+                    </div>
+                </div>
+
+                <div class="card faq-card px-0 mb-4">
+                    <h4 class="card-header faq-header">I've made a mistake, can I undo it?</h4>
+                    <div class="card-body">
+                        <p class="card-text">You can use the 'Undo' button to undo your last action on the sketchbook,
+                            but only your last action - you can't step back through every line you've drawn.</p>
+                        <p>Why just one? We want the sketchbook to feel fun and natural, like drawing on a real page.
+                            But there's nothing fun about your hand slipping while you're working on some fine detail,
+                            or flooding half your canvas with the fill tool when you thought you'd clicked on the
+                            pencil, so we added an undo you can use to take back big mistakes.</p>
+                    </div>
+                </div>
+
+                <div class="card faq-card px-0 mb-4">
+                    <h4 class="card-header faq-header">Can I save my doodles?</h4>
+                    <div class="card-body">
+                        <p class="card-text">Yes! You can save up to three doodles in your account. If you don't have an
+                            account, you can <a href="{% url 'account_signup' %}">sign up here</a>. When you've signed
+                            up or <a href="{% url 'account_login' %}">signed in</a>, click the "Save / Load" button on
+                            the sketchbook page, then just pick a save slot, give your drawing a title if you'd like to,
+                            and then click "Save".</p>
+                    </div>
+                </div>
+
+                <div class="card faq-card px-0 mb-4">
+                    <h4 class="card-header faq-header">How do I load my doodles?</h4>
+                    <div class="card-body">
+                        <p class="card-text">While signed in to your account, click the "Save / Load" button on the <a
+                                href="{% url 'sketchbook' %}">sketchbook page</a> a to open the menu. Select which
+                            drawing you'd like to load, then click "Load" to load it onto your sketchbook. This will
+                            overwrite anything currently drawn on your sketchbook, so make sure you've saved anything
+                            you want to keep!</p>
+                        <p>If you just want to admire your saved doodles without loading them onto your sketchbook, you
+                            can view them in the <a href="{% url 'profile' %}#gallery">Gallery section</a> of your
+                            Account page. Or, better yet, why not <a href="{% url 'show_all_prints' %}">buy a print</a>
+                            so you can have a permanent reminder of your artistic genius?</p>
+                    </div>
+                </div>
+
+                <div class="card faq-card px-0 mb-4">
+                    <h4 class="card-header faq-header">Can I delete my doodles?</h4>
+                    <div class="card-body">
+                        <p class="card-text">Yes, you can delete your doodles from the <a
+                                href="{% url 'profile' %}#gallery">Gallery section</a> of your account page.
+                            Alternatively, you can simply save over any doodles that you don't want to keep with new
+                            artwork.</p>
+                    </div>
+                </div>
+
+                <div class="card faq-card px-0 mb-4">
+                    <h4 class="card-header faq-header">How do I place an order?</h4>
+                    <div class="card-body">
+                        <p class="card-text">If you'd like to buy a print of some of your doodles, you can do that by
+                            visiting the <a href="{% url 'show_all_prints' %}">Prints page</a> and then clicking on the
+                            type of print you'd like to buy to see the options. Choose the size and/or colour of the
+                            product you'd like to get printed with your art, then choose the doodle you'd like to print
+                            on it. Finally, select the quantity and then click "Add to cart".</p>
+                        <p>If you don't have an account, you can only print your current sketchbook's contents, but if
+                            you have an account, you can print any of your saved doodles, too. </p>
+                        <p>Once you've added all the products you want to your shopping cart, click on the cart icon on
+                            the navigation bar or the 'Checkout Now' button in the message box to view your cart and
+                            make sure everything you want is in there. Then click "Checkout Now"and fill in your details
+                            to place your order.</p>
+                    </div>
+                </div>
+
+                <div class="card faq-card px-0 mb-4">
+                    <h4 class="card-header faq-header">Is there a shipping fee?</h4>
+                    <div class="card-body">
+                        <p class="card-text">Shipping is charged at a flat rate of £3 per order.</p>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

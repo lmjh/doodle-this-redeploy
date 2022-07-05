@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-md navbar-dark bar-gradient shadow">
+    <div class="container-fluid">
+        <!-- top left brand logo -->
+        <a class="navbar-brand" href="{% url 'sketchbook' %}"><img class="navbar-logo-text"
+                src="{{ MEDIA_URL }}svg/doodle-this-logo-text.svg" alt="Doodle This logo"></a>
+        <div class="d-flex">
+            <!-- shopping cart and menu toggler for mobile views -->
+            <a href="{% url 'view_cart' %}"
+                class="mx-4 cart-icon d-md-none position-relative d-flex align-items-center">
+                <span class="visually-hidden">Shoping Cart</span>
+                <i class="fa-solid fa-cart-shopping"></i>
+                {% if cart_count %}
+                <div class="cart-counter">{{ cart_count }}</div>
+                {% endif %}
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#responsive-navbar"
+                aria-controls="responsive-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse text-end text-md-start justify-content-between" id="responsive-navbar">
+            <!-- nav links -->
+            <div class="d-flex flex-column flex-md-row">
+                <a class="nav-link" href="{% url 'sketchbook' %}">Sketchbook</a>
+                {% if not user.is_authenticated %}
+                <a class="nav-link" href="{% url 'account_login' %}">Log In</a>
+                <a class="nav-link" href="{% url 'account_signup' %}">Register</a>
+                {% endif %}
+                {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                <!-- add admin dropdown if user is staff -->
+                <div class="nav-item dropdown d-none d-md-block">
+                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Admin
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">My Account</a></li>
+                        <li><a class="dropdown-item" href="{% url 'product_management' %}">Product Management</a></li>
+                    </ul>
+                </div>
+                <a class="nav-link d-block d-md-none" href="{% url 'profile' %}">My Account</a>
+                <a class="nav-link d-block d-md-none" href="{% url 'product_management' %}">Product Management</a>
+                {% else %}
+                <a class="nav-link" href="{% url 'profile' %}">My Account</a>
+                {% endif %}
+                <a class="nav-link" href="{% url 'account_logout' %}">Log Out</a>
+                {% endif %}
+                <a class="nav-link" href="{% url 'faq' %}">FAQ</a>
+            </div>
+            <a class="btn btn-buy-prints my-2 me-1 me-md-0" href="{% url 'show_all_prints' %}">Buy a Print</a>
+        </div>
+        <!-- shopping cart for larger views -->
+        <a href="{% url 'view_cart' %}" class="mx-4 cart-icon d-none d-md-block position-relative">
+            <span class="visually-hidden">Shoping Cart</span>
+            <i class="fa-solid fa-cart-shopping"></i>
+            {% if cart_count %}
+            <div class="cart-counter">{{ cart_count }}</div>
+            {% endif %}
+        </a>
+        <!-- top right brand logo -->
+        <a class="navbar-brand d-none d-md-block" href="{% url 'sketchbook' %}"><img
+                class="navbar-logo-text d-none d-md-block" src="{{ MEDIA_URL }}svg/doodle-this-logo-icon.svg"
+                alt="Doodle This logo"></a>
+    </div>
+</nav>

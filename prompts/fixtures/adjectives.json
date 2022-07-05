@@ -1,0 +1,450 @@
+[
+    {
+        "pk": "1",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "beautiful"
+        }
+    },
+    {
+        "pk": "2",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "an",
+            "adjective": "amazing"
+        }
+    },
+    {
+        "pk": "3",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "hideous"
+        }
+    },
+    {
+        "pk": "4",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "an",
+            "adjective": "ugly"
+        }
+    },
+    {
+        "pk": "5",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "good"
+        }
+    },
+    {
+        "pk": "6",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "bad"
+        }
+    },
+    {
+        "pk": "7",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "an",
+            "adjective": "evil"
+        }
+    },
+    {
+        "pk": "8",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "powerful"
+        }
+    },
+    {
+        "pk": "9",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "happy"
+        }
+    },
+    {
+        "pk": "10",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "sad"
+        }
+    },
+    {
+        "pk": "11",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "an",
+            "adjective": "angry"
+        }
+    },
+    {
+        "pk": "12",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "funny"
+        }
+    },
+    {
+        "pk": "13",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "calm"
+        }
+    },
+    {
+        "pk": "14",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "scared"
+        }
+    },
+    {
+        "pk": "15",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "weird"
+        }
+    },
+    {
+        "pk": "16",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "romantic"
+        }
+    },
+    {
+        "pk": "17",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "friendly"
+        }
+    },
+    {
+        "pk": "18",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "tired"
+        }
+    },
+    {
+        "pk": "19",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "an",
+            "adjective": "exhausted"
+        }
+    },
+    {
+        "pk": "20",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "terrified"
+        }
+    },
+    {
+        "pk": "21",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "gloomy"
+        }
+    },
+    {
+        "pk": "22",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "cheerful"
+        }
+    },
+    {
+        "pk": "23",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "mad"
+        }
+    },
+    {
+        "pk": "24",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "stressed"
+        }
+    },
+    {
+        "pk": "25",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "drunk"
+        }
+    },
+    {
+        "pk": "26",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "curious"
+        }
+    },
+    {
+        "pk": "27",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "sleepy"
+        }
+    },
+    {
+        "pk": "28",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "smart"
+        }
+    },
+    {
+        "pk": "29",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "clever"
+        }
+    },
+    {
+        "pk": "30",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "an",
+            "adjective": "annoyed"
+        }
+    },
+    {
+        "pk": "31",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "flirty"
+        }
+    },
+    {
+        "pk": "32",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "an",
+            "adjective": "ashamed"
+        }
+    },
+    {
+        "pk": "33",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "ditzy"
+        }
+    },
+    {
+        "pk": "34",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "bored"
+        }
+    },
+    {
+        "pk": "35",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "confused"
+        }
+    },
+    {
+        "pk": "36",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "grumpy"
+        }
+    },
+    {
+        "pk": "37",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "devious"
+        }
+    },
+    {
+        "pk": "38",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "huge"
+        }
+    },
+    {
+        "pk": "39",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "massive"
+        }
+    },
+    {
+        "pk": "40",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "tiny"
+        }
+    },
+    {
+        "pk": "41",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "small"
+        }
+    },
+    {
+        "pk": "42",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "little"
+        }
+    },
+    {
+        "pk": "43",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "big"
+        }
+    },
+    {
+        "pk": "44",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "young"
+        }
+    },
+    {
+        "pk": "45",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "an",
+            "adjective": "old"
+        }
+    },
+    {
+        "pk": "46",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "an",
+            "adjective": "ancient"
+        }
+    },
+    {
+        "pk": "47",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "red"
+        }
+    },
+    {
+        "pk": "48",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "an",
+            "adjective": "orange"
+        }
+    },
+    {
+        "pk": "49",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "yellow"
+        }
+    },
+    {
+        "pk": "50",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "green"
+        }
+    },
+    {
+        "pk": "51",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "blue"
+        }
+    },
+    {
+        "pk": "52",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "purple"
+        }
+    },
+    {
+        "pk": "53",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "pink"
+        }
+    },
+    {
+        "pk": "54",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "golden"
+        }
+    },
+    {
+        "pk": "55",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "silver"
+        }
+    },
+    {
+        "pk": "56",
+        "model": "prompts.adjective",
+        "fields": {
+            "determiner": "a",
+            "adjective": "grey"
+        }
+    }
+]

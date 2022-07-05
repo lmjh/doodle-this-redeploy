@@ -1,0 +1,40 @@
+{% extends "account/base.html" %}
+
+{% load static %}
+
+{% load i18n %}
+
+{% block page_title %}{% trans "Log Out" %}{% endblock %}
+
+{% block inner_content %}
+<h1>{% trans "Log Out" %}</h1>
+
+<p class="my-5 text-center">{% trans 'Click the button below to log out.' %}</p>
+
+<form method="post" action="{% url 'account_logout' %}" id="logout">
+  {% csrf_token %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <!-- ask if user wants to delete sketchbook contents on logout -->
+  <fieldset class="row g-2 mb-5 text-center" id="clear-sketchbook">
+    <legend class="fs-6">Clear sketchbook contents on logout?</legend>
+    <div class="col-6 col-sm-3 offset-sm-3">
+      <input type="radio" class="btn-check" name="clear-sketchbook" id="clear-sketchbook-yes">
+      <label class="btn btn-brand-primary w-100 fs-6" for="clear-sketchbook-yes">Yes</label>
+    </div>
+    <div class="col-6 col-sm-3">
+      <input type="radio" class="btn-check" name="clear-sketchbook" id="clear-sketchbook-no" checked>
+      <label class="btn btn-brand-primary w-100 fs-6" for="clear-sketchbook-no">No</label>
+    </div>
+  </fieldset>
+  <button type="submit" class="btn btn-brand-primary col-12 col-md-6 offset-md-3"
+    id="logout-button">{% trans 'Log Out' %}</button>
+</form>
+
+
+{% endblock %}
+
+{% block page_js %}
+<script src="{% static 'accounts/js/logout.js' %}"></script>
+{% endblock %}

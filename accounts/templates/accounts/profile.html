@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block page_title %}My Account - Doodle This{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-10 col-md-8 offset-1 offset-md-2">
+            <!-- account details section -->
+            <section class="content-panel p-3 mb-5 row">
+                <h1>{{ request.user.username }}'s Account</h1>
+                <h2 class="my-3">Account Details</h2>
+                <div class="col-12 col-md-10 col-lg-8 offset-md-1 offset-lg-2 mb-3">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <strong>Username: </strong> <span class="float-end">{{ request.user.username }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Email: </strong> <span class="float-end">{{ request.user.email }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 offset-lg-2">
+                    <a class="btn btn-brand-primary w-100 my-2" href="{% url 'account_email' %}">Update Email</a>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a class="btn btn-brand-primary w-100 my-2" href="{% url 'account_change_password' %}">Update
+                        Password</a>
+                </div>
+                <!-- delivery details update form -->
+                <h2 class="mt-5 mb-3">Delivery Details</h2>
+                <form action="{% url 'profile' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        {% crispy name_update_form %}
+                        {% crispy default_address_form %}
+                        <button class="btn btn-brand-primary col-12 col-md-4 offset-md-4 mb-3">Update</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10 col-md-8 offset-1 offset-md-2">
+            <!-- gallery section -->
+            <section class="content-panel p-3 mb-5 row">
+                <h2 id="gallery" class="mb-3">Gallery</h2>
+                {% for drawing in saved_drawings %}
+                <div class="col-12 col-lg-4 my-2">
+                    {% if drawing.image %}
+                    <!-- add preview image if user has an image in this save slot -->
+                    <a href="#view{{ drawing.save_slot }}" data-bs-toggle="modal">
+                        <img src="{{ drawing.image.url }}" class="save-slot-preview"
+                            alt="Save slot {{ drawing.save_slot }} preview" id="save-preview-{{ drawing.save_slot }}">
+                    </a>
+                    <!-- add view and delete buttons if user has an image in this save slot -->
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <button class="btn btn-brand-primary save-slot-button mt-2" data-bs-toggle="modal"
+                                data-bs-target="#view{{ drawing.save_slot }}">View</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-brand-primary save-slot-button mt-2" data-bs-toggle="modal"
+                                data-bs-target="#delete{{ drawing.save_slot }}">Delete</button>
+                        </div>
+                    </div>
+                    {% else %}
+                    <!-- show default blank image if no drawing in this save slot -->
+                    <img src="{{ MEDIA_URL }}svg/blank.svg" class="save-slot-preview"
+                        alt="Save slot {{ drawing.save_slot }} preview" id="save-preview-{{ drawing.save_slot }}">
+                    <!-- buttons disabled if no drawing in this save slot -->
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <button class="btn btn-brand-primary save-slot-button mt-2" disabled>View</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-brand-primary save-slot-button mt-2" disabled>Delete</button>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10 col-md-8 offset-1 offset-md-2">
+            <!-- order history section -->
+            <section class="content-panel p-3 mb-5 row">
+                <h2 id="order-history" class="mb-3">Order History</h2>
+                {% if orders %}
+                <!-- iterate through orders and add details -->
+                {% for order in orders %}
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>Order Number: </strong>
+                        <span class="float-end">
+                            <a href="{% url 'order_details' order_number=order.order_number %}">
+                                {{ order.order_number }}
+                            </a>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Date: </strong> <span class="float-end">{{ order.date }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Summary: </strong>
+                        <span class="float-end">
+                            <!-- iterate through order items and add to summary -->
+                            {% for item in order.order_items.all %}
+                            {{ item.quantity }} x {{ item.product_variant.product.display_name }},
+                            {{ item.product_variant.display_name }}
+                            {% if forloop.revcounter0 > 0 %}<span class=text-muted>|</span>{% endif %}
+                            {% endfor %}
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Grand Total: </strong> <span class="float-end highlight">£{{ order.grand_total }}</span>
+                    </li>
+                </ul>
+                <hr class="my-3">
+                {% endfor %}
+                {% else %}
+                <div class="col-12">
+                    <p class="text-center">
+                        You haven't made any print orders yet.
+                    </p>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4 offset-sm-3 offset-lg-4 mb-3">
+                    <a href="{% url 'show_all_prints' %}" class="btn btn-brand-primary w-100">View Prints</a>
+                </div>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block page_modals %}
+<!-- iterate through saved drawings and add view and delete modals if an image is saved in the save slot -->
+{% for drawing in saved_drawings %}
+{% if drawing.image %}
+<div class="modal fade" id="view{{ drawing.save_slot }}" tabindex="-1"
+    aria-labelledby="view{{ drawing.save_slot }}Label" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <!-- show title if available, else show save slot -->
+                <h3 class="modal-title highlight w-100 display-6" id="view{{ drawing.save_slot }}Label">
+                    {% if drawing.title %}
+                    {{ drawing.title }}
+                    {% else %}
+                    Doodle {{ drawing.save_slot }}
+                    {% endif %}
+                </h3>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body gallery-modal d-flex align-items-center justify-content-center">
+                <img src="{{ drawing.image.url }}" alt="Drawing {{ drawing.save_slot }}" class="drawing-full-view">
+            </div>
+            <div class="modal-footer">
+                <div class="col-12 col-sm-6 col-lg-4 offset-sm-6 offset-md-8">
+                    <button type="button" class="btn btn-brand-primary w-100" data-bs-dismiss="modal">
+                        Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- delete drawing confirmation modal -->
+<div class="modal fade" id="delete{{ drawing.save_slot }}" tabindex="-1"
+    aria-labelledby="delete{{ drawing.save_slot }}Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete{{ drawing.save_slot }}Label">Delete Doodle {{ drawing.save_slot }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Are you sure you want to delete this doodle? The doodle will be permanently deleted and any items
+                    featuring this doodle will be removed from your shopping cart.
+                </p>
+                <p>
+                    Order pictures are saved separately, so if you've already placed an order with this doodle you'll
+                    still get your order.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <!-- delete confirm or cancel buttons -->
+                <div class="row w-100 g-2">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-brand-primary w-100"
+                            data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="col-6">
+                        <a class="btn btn-danger w-100" href="{% url 'delete_drawing' drawing.id %}">Delete
+                            Doodle</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endblock %}

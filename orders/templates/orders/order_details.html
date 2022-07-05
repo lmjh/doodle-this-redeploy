@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}Order Details - Doodle This{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
+            <section class="content-panel p-3 mb-5 row">
+                <h1>Thank You</h1>
+                <hr class="my-3">
+                <!-- main order details -->
+                <h5>Order Details</h5>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>Order Number: </strong> <span class="float-end">{{ order.order_number }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Date: </strong> <span class="float-end">{{ order.date }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Order Cost: </strong> <span class="float-end highlight">£{{ order.order_cost }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Delivery Cost: </strong> <span
+                            class="float-end highlight">£{{ order.delivery_cost }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Grand Total: </strong> <span class="float-end highlight">£{{ order.grand_total }}</span>
+                    </li>
+                </ul>
+                <hr class="my-3">
+                <!-- delivery details information -->
+                <h5>Delivery Details</h5>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>Full Name: </strong><span class="float-end">{{ order.first_name }}
+                            {{ order.last_name }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Address 1: </strong> <span class="float-end">{{ order.address_1 }}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Address 2: </strong> <span class="float-end">
+                            {% if order.address_2 %}
+                            {{ order.address_2 }}
+                            {% else %}
+                            N/A
+                            {% endif %}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Town: </strong> <span class="float-end">{{ order.town }} </span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>County: </strong> <span class="float-end">
+                            {% if order.county %}
+                            {{ order.county }}
+                            {% else %}
+                            N/A
+                            {% endif %}</span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Postcode: </strong> <span class="float-end">{{ order.postcode }} </span>
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Country:</strong> <span class="float-end">{{ order.country }} </span>
+                    </li>
+
+                    <li class="list-group-item">
+                        <strong>Phone:</strong> <span class="float-end">{{ order.phone_number }} </span>
+                    </li>
+                </ul>
+                <hr class="my-3">
+                <!-- individual order items information -->
+                <h5>Order Items</h5>
+                <div class="container-fluid">
+                    {% for item in order.order_items.all %}
+                    <div class="row align-items-center mb-3">
+                        <div class="col-12 col-md-6 mb-2 mb-md-0">
+                            <div class="d-flex">
+                                <div class="product-image-flex pe-1">
+                                    <img src="
+                                        {% if item.product_variant.image.image.url %}
+                                        {{ item.product_variant.image.image.url }}
+                                        {% else %}
+                                        {{ item.product_variant.product.image.image.url }}
+                                        {% endif %}
+                                        " class="w-100" alt="Product preview image">
+                                </div>
+                                <div class="drawing-image-flex ps-1">
+                                    <img src="{{ item.order_drawing.image.url }}" class="w-100"
+                                        alt="Drawing preview image">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <ul class="list-group w-100">
+                                <li class="list-group-item">
+                                    <strong>Product: </strong><span
+                                        class="float-end">{{ item.product_variant.product.display_name }},
+                                        {{ item.product_variant.display_name }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Doodle: </strong> <span
+                                        class="float-end">{% if item.order_drawing.save_slot == 0 %}
+                                        Current Sketchbook Doodle {% else %} Saved Doodle
+                                        {{ item.order_drawing.save_slot }} {% endif %}
+
+                                    </span>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Quantity/Cost: </strong><span class="float-end">{{ item.quantity }} @
+                                        £{{ item.product_variant.price }}
+                                        {% if item.quantity > 1 %}each{% endif %}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr class="mb-3">
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

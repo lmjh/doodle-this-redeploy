@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'admin/css/product-image.css' %}">
+{% endblock %}
+
+{% block page_title %}Edit Product Image - Doodle This{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-md-10 offset-md-1">
+            <div class="content-panel p-3 mb-5 row">
+                <h1 class="col-12 mb-3 text-center">Edit Product Image</h1>
+                <!-- edit product image form -->
+                <form method="POST" action="{% url 'edit_product_image' product_image.id %}" class="row"
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-12 col-md-6">
+                        {{ form.name_slug | as_crispy_field }}
+                    </div>
+                    <div class="col-12 col-md-6">
+                        {{ form.image_type | as_crispy_field }}
+                    </div>
+                    <div class="col-12 col-md-6 ">
+                        {{ form.image }}
+                    </div>
+                    <div class="col-12 col-md-6">
+                        {{form.overlay_width | as_crispy_field}}
+                        {{form.overlay_x_offset | as_crispy_field}}
+                        {{form.overlay_y_offset | as_crispy_field}}
+                    </div>
+                    <p class="small text-center"><em>Fields marked with a * are required.</em></p>
+                    <!-- submit button -->
+                    <button type="submit"
+                        class="btn btn-brand-primary col-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4 my-3">Update
+                        Product Image</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_js %}
+<!-- load javascript to position overlay preview over product image -->
+<script src="{% static 'admin/js/productImage.js' %}"></script>
+{% endblock %}

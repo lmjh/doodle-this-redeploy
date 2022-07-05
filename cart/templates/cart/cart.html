@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}Shopping Cart - Doodle This{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-md-10 offset-md-1">
+            <div class="content-panel p-3 mb-5 row">
+                <h1 class="text-center mb-3">Shopping Cart</h1>
+
+                <section class="container-fluid" aria-label="Shopping cart contents">
+                    <!-- order items -->
+                    <hr>
+                    {% if cart_contents %}
+                    {% for item in cart_contents %}
+                    <div class="row align-items-center mb-3">
+                        <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                            <div class="d-flex">
+                                <!-- product image -->
+                                <div class="product-image-flex pe-1">
+                                    <img src="{{ item.image }}" class="w-100" alt="Product preview image">
+                                </div>
+                                <!-- drawing preview -->
+                                <div class="drawing-image-flex ps-1">
+                                    <img src="{{ item.drawing_image }}" class="drawing-thumbnail" alt="Drawing preview image">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <ul class="list-group w-100">
+                                <!-- item details -->
+                                <li class="list-group-item">
+                                    <strong>Product: </strong><span class="float-end">{{ item.name }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Doodle: </strong> <span class="float-end">{% if item.drawing == "0" %}
+                                        Current Sketchbook Doodle {% else %} Saved Doodle
+                                        {{ item.drawing }} {% endif %}
+                                    </span>
+                                </li>
+                                <li class="list-group-item">
+                                    <strong>Quantity: </strong>
+                                    <div class="float-end">
+                                        <!-- quantity update form -->
+                                        <form method="POST" action="{% url 'update_cart_item' %}"
+                                            class="d-inline-block">
+                                            {% csrf_token %}
+                                            <label class="visually-hidden"
+                                                for="{{ item.variant_id }}-{{ item.drawing }}-quantity">Select
+                                                quantity</label>
+                                            <input class="form-control cart-quantity" type='number' name="quantity"
+                                                value={{ item.quantity }} min="0" max="99"
+                                                id="{{ item.variant_id }}-{{ item.drawing }}-quantity">
+                                            <input type="hidden" name="variant_id" value="{{ item.variant_id }}">
+                                            <input type="hidden" name="drawing" value="{{ item.drawing }}">
+                                            <button type="submit" class="update-button">Update</button>
+                                        </form> |
+                                        <!-- item delete form -->
+                                        <form method="POST" action="{% url 'remove_cart_item' %}"
+                                            class="d-inline-block">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="variant_id" value="{{ item.variant_id }}">
+                                            <input type="hidden" name="drawing" value="{{ item.drawing }}">
+                                            <button type="submit" class="delete-button">Remove</button>
+                                        </form>
+                                    </div>
+                                </li>
+                                <!-- item subtotal -->
+                                <li class="list-group-item">
+                                    <strong>Subtotal: </strong><span
+                                        class="highlight float-end">£{{ item.price }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr class="mb-3">
+                    {% endfor %}
+                </section>
+                <!-- cart totals -->
+                <section class="col-9 col-sm-6 col-lg-4 offset-3 offset-sm-6 offset-lg-8 text-end"
+                    aria-label="Shopping cart totals">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <span class=highlight>£{{ items_total }}</span> total
+                        </li>
+                        <li class="list-group-item">
+                            + <span class=highlight>£{{ delivery }}</span> delivery
+                        </li>
+                    </ul>
+                    <hr>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Grand Total: <span class=highlight>£{{ grand_total }}</span>
+                        </li>
+                    </ul>
+                </section>
+                <div class="col-12">
+                    <hr class="mb-3">
+                </div>
+                <!-- navigation buttons -->
+                <div class="col-12 col-md-6 col-lg-4 offset-lg-4 mb-3">
+                    <a href="{% url 'show_all_prints' %}" class="btn btn-brand-primary w-100">Return to Shop</a>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4 mb-3">
+                    <a href="{% url 'checkout' %}" class="btn btn-brand-primary w-100">Checkout Now</a>
+                </div>
+                {% else %}
+                <div class="col-12">
+                    <p class="text-center">
+                        Your shopping cart is empty.
+                    </p>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4 offset-sm-3 offset-lg-4 mb-3">
+                    <a href="{% url 'show_all_prints' %}" class="btn btn-brand-primary w-100">View Prints</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_js %}
+<!-- load cart javascript file -->
+<script src="{% static 'cart/js/cart.js' %}"></script>
+{% endblock %}

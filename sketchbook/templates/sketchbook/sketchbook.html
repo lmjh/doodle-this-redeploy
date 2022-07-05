@@ -1,0 +1,590 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_css %}
+<!-- coloris colour picker css -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css" />
+<!-- intro.js css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/5.1.0/introjs.min.css"
+    integrity="sha512-iaYE9B9u4GU8+KkRTOdRdZuzKdYw1X0hOAa4GwDV/uwdXgoX/ffT3ph1+HG1m4LPZD/HV+dkuHvWFLZtPviylQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{% static 'sketchbook/css/tour.css' %}">
+{% endblock %}
+
+{% block page_title %}Sketchbook - Doodle This{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid overflow-hidden">
+    <div class="row mx-xl-0">
+        <!-- controls at top on small screens and on left on large screens -->
+        <section class="col-12 col-xl-2 mb-2 mt-xl-4" aria-label="Control panel">
+            <div class="row control-panel py-2 align-items-center">
+                <div class="col-12 mt-2 d-none d-xl-block">
+                    <img class="control-panel-logo" src="{{ MEDIA_URL }}svg/doodle-this-logo.svg"
+                        alt="Doodle This logo">
+                </div>
+                <!-- drawing prompt box -->
+                <div class="col-12 col-sm-8 col-lg-6 col-xl-12 my-2 d-flex flex-column justify-content-center"
+                    id="prompt-hodler">
+                    <div class="drawing-prompt-box p-2 shadow">
+                        <div id="drawing-prompt">
+                            {{ prompt }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-4 col-lg-6 col-xl-12 ">
+                    <div class="row g-2">
+                        <!-- prompt control buttons -->
+                        <div class="col-6 col-sm-12 col-lg-6 col-xl-12">
+                            <button class="btn btn-brand-primary w-100" type="button" id="get-prompt-button">New
+                                Prompt</button>
+                        </div>
+                        <div class="col-6 col-sm-12 col-lg-6 col-xl-12">
+                            <button class="btn btn-brand-primary w-100" type="button" id="help-button">Help</button>
+                        </div>
+                        <!-- sketchbook control buttons -->
+                        <div class="col-6 d-none d-xl-block">
+                            <button class="btn btn-brand-primary w-100" data-bs-toggle="modal"
+                                data-bs-target="#clearModal" id="clear-side">
+                                Clear
+                            </button>
+                        </div>
+                        <div class="col-6 d-none d-xl-block">
+                            <button class="btn btn-brand-primary w-100" id="undo-side" disabled>
+                                Undo
+                            </button>
+                        </div>
+                        <div class="col-12 d-none d-xl-block">
+                            <button class="btn btn-brand-primary w-100" data-bs-toggle="modal" id="save-load-side"
+                                data-bs-target="#saveModal" {% if not user.is_authenticated %}disabled{% endif %}>
+                                Save / Load
+                            </button>
+                        </div>
+                        <div class="col-12 d-none d-xl-block">
+                            <button class="btn btn-brand-primary w-100" data-bs-toggle="modal" id="options-side"
+                                data-bs-target="#optionsModal">
+                                Options
+                            </button>
+                        </div>
+                        {% if not user.is_authenticated %}
+                        <div class="col-12 text-center d-none d-xl-block">
+                            <p class="small"><a href="{% url 'account_login' %}">Sign in</a> or <a
+                                    href="{% url 'account_signup' %}">register</a> to save your doodles.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!-- sketchbook canvas section -->
+        <section class="col-12 col-md-9 col-xl-8 mb-2 mt-xl-1" aria-label="Sketchbook">
+            <!-- div to hold the scaling div and provide width for scale ratio calculation -->
+            <div id="scaler-holder" class="invisible">
+                <!-- div to scale the canvas and its background image up and down by screensize -->
+                <div id="sketchbook-scaler">
+                    <!-- div containing background image of sketchbook -->
+                    <div id="sketchbook-background">
+                        <!-- atrament canvas  -->
+                        <div id="paper" class="watermarked-paper"></div>
+                        <canvas id="sketchbook" aria-label="Interactive sketchbook canvas" role=img></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- controls at bottom on small screens and on right on large screens -->
+        <section class="col-12 col-md-3 col-xl-2 mb-2 mt-xl-4" aria-label="Tool selection panel">
+            <div class="row control-panel py-2">
+                <div class="col-6 col-md-12 order-1 d-flex flex-column justify-content-center d-md-block">
+                    <div id="cursor-stroke-width">
+                        <!-- drawing cursor preview -->
+                        <div class="col-12 d-flex justify-content-center my-2">
+                            <div class="cursor-holder d-flex justify-content-center align-items-center">
+                                <div id="cursor"></div>
+                            </div>
+                        </div>
+                        <!-- stroke width control -->
+                        <div class="col-12 mb-2">
+                            <label for="stroke-weight" class="form-label visually-hidden">Stroke Weight</label>
+                            <input type="range" class="form-range" id="stroke-weight" min="2" max="40" value="20"
+                                step="2">
+                        </div>
+                    </div>
+                </div>
+                <!-- colour picker -->
+                <div class="col-12 mb-2 order-3 order-md-2" id="coloris-tour">
+                    <div class="coloris-background">
+                        <input type="text" id="coloris-picker" class="coloris" value="#000000" aria-hidden="true"
+                            tabindex="-1" data-coloris>
+                    </div>
+                </div>
+                <!-- responsive grid of colour selection circles built with flex-box -->
+                <!-- based on this tutorial: https://dev.to/stretch0/a-grid-layout-with-responsive-squares-59c6 -->
+                <div class="col-12 mb-2 order-4 order-md-3">
+                    <div class="flex-wrap-holder" id="preset-colour-holder">
+                        <div class="colour-circle colour-group-1">
+                            <button class="colour-button red-ink">
+                                <span class="visually-hidden">Select red colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-1">
+                            <button class="colour-button orange-ink">
+                                <span class="visually-hidden">Select orange colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-1">
+                            <button class="colour-button yellow-ink">
+                                <span class="visually-hidden">Select yellow colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-1">
+                            <button class="colour-button green-ink">
+                                <span class="visually-hidden">Select green colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-3">
+                            <button class="colour-button blue-ink">
+                                <span class="visually-hidden">Select blue colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-3">
+                            <button class="colour-button purple-ink">
+                                <span class="visually-hidden">Select purple colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-3">
+                            <button class="colour-button beige-ink">
+                                <span class="visually-hidden">Select beige colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-3">
+                            <button class="colour-button brown-ink">
+                                <span class="visually-hidden">Select brown colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-6">
+                            <button class="colour-button light-grey-ink">
+                                <span class="visually-hidden">Select light grey colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-7">
+                            <button class="colour-button black-ink">
+                                <span class="visually-hidden">Select black colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-2">
+                            <button class="colour-button light-red-ink">
+                                <span class="visually-hidden">Select light red colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-2">
+                            <button class="colour-button light-orange-ink">
+                                <span class="visually-hidden">Select light orange colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-2">
+                            <button class="colour-button light-yellow-ink">
+                                <span class="visually-hidden">Select light yellow colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-2">
+                            <button class="colour-button light-green-ink">
+                                <span class="visually-hidden">Select light green colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-4">
+                            <button class="colour-button light-blue-ink">
+                                <span class="visually-hidden">Select light blue colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-4">
+                            <button class="colour-button pink-ink">
+                                <span class="visually-hidden">Select pink colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-4">
+                            <button class="colour-button light-beige-ink">
+                                <span class="visually-hidden">Select light beige colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-4">
+                            <button class="colour-button light-brown-ink">
+                                <span class="visually-hidden">Select light brown colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-5">
+                            <button class="colour-button white-ink">
+                                <span class="visually-hidden">Select white colour</span>
+                            </button>
+                        </div>
+                        <div class="colour-circle colour-group-6">
+                            <button class="colour-button grey-ink">
+                                <span class="visually-hidden">Select grey colour</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- tool selection controls -->
+                <div class="col-6 col-md-12 mb-2 order-2 order-md-4">
+                    <div class="flex-wrap-holder h-100 mt-2 mb-3 mt-md-0 mb-md-0" id="tool-holder">
+                        <button class="tool-button active-tool" value="draw" id="pencil-tool">
+                            <img src="{{ MEDIA_URL }}svg/pencil.svg" alt="Pencil tool icon" aria-hidden="true"
+                                class="tool-icon">
+                            <span class="visually-hidden">Pencil tool</span>
+                        </button>
+                        <button class="tool-button" value="fill" id="fill-tool">
+                            <img src="{{ MEDIA_URL }}svg/fill.svg" alt="Fill tool icon" aria-hidden="true"
+                                class="tool-icon">
+                            <span class="visually-hidden">Fill tool</span>
+                        </button>
+                        <button class="tool-button" value="erase" id="erase-tool">
+                            <img src="{{ MEDIA_URL }}svg/eraser.svg" alt="Eraser tool icon" aria-hidden="true"
+                                class="tool-icon">
+                            <span class="visually-hidden">Eraser tool</span>
+                        </button>
+                        <button class="tool-button" value="picker" id="picker-tool">
+                            <img src="{{ MEDIA_URL }}svg/picker.svg" alt="Picker tool icon" aria-hidden="true"
+                                class="tool-icon">
+                            <span class="visually-hidden">Picker tool</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- sketchbook control buttons at bottom on screens up to 1199px -->
+        <section class="col-12 d-xl-none control-panel mt-2 mb-5" aria-label="Control panel">
+            <div class="row g-2 mt-2 mb-3">
+                <div class="col-6 col-md-3">
+                    <button class="btn btn-brand-primary w-100" data-bs-toggle="modal" id="clear-bottom"
+                        data-bs-target="#clearModal">
+                        Clear
+                    </button>
+                </div>
+                <div class="col-6 col-md-3">
+                    <button class="btn btn-brand-primary w-100" id="undo-bottom" disabled>
+                        Undo
+                    </button>
+                </div>
+                <div class="col-6 col-md-3">
+                    <button class="btn btn-brand-primary w-100" data-bs-toggle="modal" data-bs-target="#saveModal"
+                        id="save-load-bottom" {% if not user.is_authenticated %}disabled{% endif %}>
+                        Save / Load
+                    </button>
+                </div>
+                <div class="col-6 col-md-3">
+                    <button class="btn btn-brand-primary w-100" data-bs-toggle="modal" id="options-bottom"
+                        data-bs-target="#optionsModal">
+                        Options
+                    </button>
+                </div>
+            </div>
+            {% if not user.is_authenticated %}
+            <div class="col-12 text-center">
+                <p class="small"><a href="{% url 'account_login' %}">Sign in</a> or <a
+                        href="{% url 'account_signup' %}">register</a> to save your doodles.</p>
+            </div>
+            {% endif %}
+        </section>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block page_modals %}
+<!-- canvas clear confirmation modal -->
+<div class="modal fade" id="clearModal" tabindex="-1" aria-labelledby="clearModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="clearModalLabel">Clear Sketchbook</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to clear your sketchbook? Any unsaved doodles will be lost.
+            </div>
+            <div class="modal-footer">
+                <div class="row w-100 g-2">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-brand-primary w-100"
+                            data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"
+                            id="clear-sketchbook">Clear Sketchbook</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- canvas options modal -->
+<div class="modal fade" id="optionsModal" tabindex="-1" aria-labelledby="optionsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="optionsModalLabel">Sketchbook Options</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <fieldset class="row g-2 mb-3" id="paper-type" aria-labelledby="paper-label">
+                    <legend class="visually-hidden" id="paper-label">Paper background</legend>
+                    <!-- canvas background selection controls -->
+                    <div class="d-flex align-items-center">
+                        <div class="fs-6 w-100">Paper background: </div>
+                        <span class="float-end">
+                            <a data-bs-toggle="collapse" href="#paper-help" role="button" aria-expanded="false"
+                                aria-controls="paper-help" class="help-button"
+                                aria-label="View paper background help information">
+                                <i class="fa-solid fa-circle-question"></i>
+                                <i class="fa-solid fa-circle-minus"></i>
+                            </a>
+                        </span>
+                    </div>
+                    <!-- paper background collapsible help section -->
+                    <div id="paper-help" class="collapse mb-1">
+                        <small>This setting changes the background of your sketchbook. This is just for decoration. It
+                            won't be saved or printed with your drawings.</small>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <input type="radio" class="btn-check " name="paper-type" id="none">
+                        <label class="btn btn-brand-primary w-100 fs-6" for="none">None</label>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <input type="radio" class="btn-check" name="paper-type" id="watermark" checked>
+                        <label class="btn btn-brand-primary w-100 fs-6" for="watermark">Watermark</label>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <input type="radio" class="btn-check" name="paper-type" id="lined">
+                        <label class="btn btn-brand-primary w-100 fs-6" for="lined">Lined</label>
+                    </div>
+                    <div class="col-6 col-sm-3">
+                        <input type="radio" class="btn-check" name="paper-type" id="squared">
+                        <label class="btn btn-brand-primary w-100 fs-6" for="squared">Squared</label>
+                    </div>
+                </fieldset>
+                <div class="mb-2">
+                    <!-- stroke smoothing control slider -->
+                    <div class="d-flex align-items-center">
+                        <label for="smoothing" class="form-label w-100">Stroke smoothing:</label>
+                        <span class="float-end">
+                            <a data-bs-toggle="collapse" href="#smoothing-help" role="button" aria-expanded="false"
+                                aria-controls="smoothing-help" class="help-button"
+                                aria-label="View stroke smoothing help information">
+                                <i class="fa-solid fa-circle-question"></i>
+                                <i class="fa-solid fa-circle-minus"></i>
+                            </a>
+                        </span>
+                    </div>
+                    <!-- stroke smoothing collapsible help section -->
+                    <div id="smoothing-help" class="collapse mb-1">
+                        <small>Higher smoothing makes your lines look smoother. Lower smoothing makes your sketchbook
+                            more responsive, but the lines will look rougher.</small>
+                    </div>
+                    <input class="form-range" id="smoothing" type="range" min="0.1" max="2" value="0.65" step="0.05">
+                </div>
+                <div class="mb-3">
+                    <fieldset class="row g-2 mb-3" id="adaptive-stroke">
+                        <legend class="visually-hidden">Adaptive stroke</legend>
+                        <!-- adaptive stroke on/off controls -->
+                        <div class="d-flex align-items-center">
+                            <div class="fs-6 w-100">Adaptive stroke: </div>
+                            <span class="float-end">
+                                <a data-bs-toggle="collapse" href="#adaptive-help" role="button" aria-expanded="false"
+                                aria-controls="adaptive-help" class="help-button"
+                                aria-label="View adaptive stroke help information">
+                                <i class="fa-solid fa-circle-question"></i>
+                                <i class="fa-solid fa-circle-minus"></i>
+                            </a>
+                        </span>
+                    </div>
+                        <!-- adaptive stroke collapsible help section -->
+                        <div id="adaptive-help" class="collapse mb-1">
+                            <small>Adaptive stroke makes your lines thicker if you draw your strokes more
+                                quickly.</small>
+                            </div>
+                        <div class="col-6 col-sm-3 offset-sm-3">
+                            <input type="radio" class="btn-check" name="adaptive-stroke" id="adaptive-stroke-on">
+                            <label class="btn btn-brand-primary w-100 fs-6" for="adaptive-stroke-on">On</label>
+                        </div>
+                        <div class="col-6 col-sm-3">
+                            <input type="radio" class="btn-check" name="adaptive-stroke" id="adaptive-stroke-off"
+                                checked>
+                            <label class="btn btn-brand-primary w-100 fs-6" for="adaptive-stroke-off">Off</label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+<!-- canvas save drawing modal -->
+<div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="saveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="saveModalLabel">Save or Load Drawings</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'save_drawing' %}" id="drawing-form">
+                    {% csrf_token %}
+                    {{form.title|as_crispy_field}}
+                    <hr>
+                    <fieldset class="row g-2 mb-3 justify-content-center" id="drawing-save-slot">
+                        <!-- drawing save slot selection controls -->
+                        <legend class="fs-6">Select Save Slot: </legend>
+                        <div class="col-4">
+                            <!-- add preview image if user has an image in this save slot, otherwise show a default -->
+                            {% if saved_drawings.0 %}
+                            <img src="{{ saved_drawings.0.image.url }}" class="save-slot-preview"
+                                alt="Save slot 1 preview" id="save-preview-1">
+                            {% else %}
+                            <img src="{{ MEDIA_URL }}svg/blank.svg" class="save-slot-preview" alt="Save slot 1 preview"
+                                id="save-preview-1">
+                            {% endif %}
+                            <input type="radio" class="btn-check" name="drawing-save-slot" id="save-slot-1" value="1"
+                                checked>
+                            <label class="btn btn-brand-primary save-slot-button mt-2" for="save-slot-1">1</label>
+                        </div>
+                        <div class="col-4">
+                            {% if saved_drawings.1 %}
+                            <img src="{{ saved_drawings.1.image.url }}" class="save-slot-preview"
+                                alt="Save slot 2 preview" id="save-preview-2">
+                            {% else %}
+                            <img src="{{ MEDIA_URL }}svg/blank.svg" class="save-slot-preview" alt="Save slot 2 preview"
+                                id="save-preview-2">
+                            {% endif %}
+                            <input type="radio" class="btn-check" name="drawing-save-slot" id="save-slot-2" value="2">
+                            <label class="btn btn-brand-primary save-slot-button mt-2" for="save-slot-2">2</label>
+                        </div>
+                        <div class="col-4">
+                            {% if saved_drawings.2 %}
+                            <img src="{{ saved_drawings.2.image.url }}" class="save-slot-preview"
+                                alt="Save slot 3 preview" id="save-preview-3">
+                            {% else %}
+                            <img src="{{ MEDIA_URL }}svg/blank.svg" class="save-slot-preview" alt="Save slot 3 preview"
+                                id="save-preview-3">
+                            {% endif %}
+                            <input type="radio" class="btn-check" name="drawing-save-slot" id="save-slot-3" value="3">
+                            <label class="btn btn-brand-primary save-slot-button mt-2" for="save-slot-3">3</label>
+                        </div>
+                    </fieldset>
+                </form>
+                <hr>
+                <div class="row g-2 w-100" id="save-load-buttons">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-brand-primary w-100" id="save-dialog-toggle"
+                            data-bs-toggle="collapse" data-bs-target="#save-confirm" aria-expanded="false"
+                            aria-controls="save-confirm">Save</button>
+                    </div>
+                    <div class="col-6">
+                        <button type="button" class="btn btn-brand-primary w-100" id="load-dialog-toggle"
+                            data-bs-toggle="collapse" data-bs-target="#load-confirm" aria-expanded="false"
+                            aria-controls="load-confirm">Load</button>
+                    </div>
+                </div>
+                <div class="collapse" id="save-confirm">
+                    <!-- collapsible section to confirm saving picture -->
+                    <hr class="mt-3">
+                    <div class="row g-2 w-100">
+                        <div class="mb-3">Are you sure you want to save in this save slot?</div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-brand-primary w-100 cancel-button"
+                                data-bs-toggle="collapse" data-bs-target="#save-confirm">Cancel</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-brand-primary w-100" id="save-drawing"
+                                data-bs-toggle="collapse" data-bs-target="#save-confirm">Save</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse" id="load-confirm">
+                    <!-- collapsible section to confirm loading picture -->
+                    <hr class="mt-3">
+                    <div class="row g-2 w-100">
+                        <div class="mb-3">Are you sure you want to load the drawing in this save slot?</div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-brand-primary w-100 cancel-button"
+                                data-bs-toggle="collapse" data-bs-target="#load-confirm">Cancel</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-brand-primary w-100" id="load-drawing"
+                                data-bs-toggle="collapse" data-bs-target="#load-confirm">Load</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+<!-- Welcome modal -->
+<div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="welcomeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title highlight text-center" id="welcomeModalLabel">Doodle This</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Welcome to Doodle This, a site where you can draw fun doodles in your own online sketchbook.</p>
+
+                <p>Click the Take Tour button below to learn about the sketchbook's features, or just jump right in and get drawing!</p>
+
+                <p>There's a Help button on your sketchbook page you can push if you'd like to take the tour later.</p>
+                <!-- Hide welcome modal checkbox -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="hide-welcome" name="hide-welcome">
+                    <label class="form-check-label" for="hide-welcome">
+                        Don't show this message again
+                    </label>
+                </div>
+                <hr>
+                <div class="row g-2 w-100">
+                    <!-- close modal button -->
+                    <div class="col-6">
+                        <button type="button" class="btn btn-brand-primary w-100" data-bs-dismiss="modal" 
+                            aria-label="Close">
+                        Close
+                    </button>
+                    </div>
+                    <!-- start tour button -->
+                    <div class="col-6">
+                        <button type="button" class="btn btn-brand-primary w-100" id="welcome-help-button">
+                            Take Tour
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_js %}
+<!-- load Atrament drawing plugin -->
+<script src="{% static 'sketchbook/js/atrament.min.js' %}"></script>
+<!-- load Coloris colour picker plugin -->
+<script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+<!-- output urls and titles dictionaries as JSON for javascript functions -->
+{{ urls|json_script:"urls" }}
+{{ titles|json_script:"titles" }}
+<!-- output json script to represent user's login status -->
+{{ user.is_authenticated|json_script:"auth" }}
+<!-- load sketchbook javascript file -->
+<script src="{% static 'sketchbook/js/sketchbook.js' %}"></script>
+<!-- load intro.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/5.1.0/intro.min.js"
+    integrity="sha512-B0B1bdTGi9XHtoCINbtR6z9Vi8IYvvtImIE8KWMtqWAVUt2Wn2k69GxM7ya/3rQcz/Pgm/o1WcDU347/5k202A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- load intro.js tour settings and steps  -->
+<script src="{% static 'sketchbook/js/tour.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}Print Details - Doodle This{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-md-10 offset-md-1">
+            <div class="content-panel p-3 mb-5 row">
+                <h1 class="col-12 mb-3 text-center">Buy Custom {{ product.display_name }}</h1>
+                <div class="col-12 col-md-6 mb-3">
+                    <div class="position-relative">
+                        <img id="product-image" src="{{ MEDIA_URL }}svg/placeholder-4-3.svg" class="img-fluid" alt="Product preview image">
+                        <img id="drawing-overlay" src="{{ MEDIA_URL }}svg/placeholder-16-9.svg" alt="Drawing preview overlay">
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 d-flex align-items-center">
+                    <div>
+                        <!-- product description -->
+                        <p>{{ product.description }}</p>
+                        <p id="variant-description">{{ variants.0.description }}</p>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <form action="{% url 'add_to_cart' %}" method="POST" class="row" id="add-to-cart">
+                        {% csrf_token %}
+                        <div class="col-12 col-lg-6">
+                            <div class="input-group mb-3 ">
+                                <!-- select product variant -->
+                                <label class="input-group-text bg-dark text-light" for="variant">Select
+                                    {{ product.get_variant_type_display }}</label>
+                                <select class="form-select" id="variant" name="variant" autocomplete="off">
+                                    {% for variant in variants %}
+                                    <option value="{{ variant.id }}">{{ variant.display_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <!-- select drawing to print -->
+                            <div class="input-group mb-3 ">
+                                <label class="input-group-text bg-dark text-light" for="drawing">Select Doodle</label>
+                                <select class="form-select" id="drawing" name="drawing">
+                                    <option value="0">Current Doodle</option>
+                                    {% for drawing in saved_drawings %}
+                                    <option value="{{ drawing.save_slot }}">Saved Doodle
+                                        {{ drawing.save_slot }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <!-- variant price -->
+                        <div class="col-6 col-sm-3 d-flex align-items-center justify-content-center">Price:</div>
+                        <div class="col-6 col-sm-3 highlight d-flex align-items-center justify-content-center">
+                            £<span id="price">{{ variants.0.price }}</span></div>
+                        <div class="col-12 col-sm-6 mt-3 mt-sm-0 mb-3">
+                            <div class="input-group">
+                                <label for="quantity" class="input-group-text bg-dark text-light">Quantity:</label>
+                                <input type="number" id="quantity" name="quantity" value=1 min="1" max="99"
+                                    class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                        <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                        <!-- add to cart button -->
+                        <div class="col-12 col-sm-6 col-lg-4 offset-sm-3 offset-lg-4 mb-3">
+                            <button class="btn btn-brand-primary w-100">Add to Cart</button>
+                        </div>
+                    </form>
+                    <div class="col-12 mt-4">
+                        {% if not user.is_authenticated %}
+                        <p class="small">
+                            You can only print your current sketchbook's contents as you're not signed in.
+                            <a href="{% url 'account_login' %}">Sign in</a> or <a href="{% url 'account_signup' %}">
+                                register</a> to save your doodles and add more to your order.
+                        </p>
+                        {% endif %}
+                        <p class="text-end"><a href="{% url 'show_all_prints' %}">Return to prints</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_js %}
+<!-- output JSON data for javascript functions -->
+{{ json_data|json_script:"jsonData" }}
+<!-- load prints javascript file -->
+<script src="{% static 'prints/js/prints.js' %}"></script>
+{% endblock %}

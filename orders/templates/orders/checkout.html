@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}Checkout - Doodle This{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row g-2">
+        <div class="col-12 col-lg-6">
+            <section class="content-panel p-3 mb-5">
+                <h1>Checkout</h1>
+                <p>Please enter your delivery and payment details to complete your order.</p>
+                <hr>
+                <!-- order form -->
+                <form class="row" id="payment-form" method="POST">
+                    <p class="small text-center"><em>Fields marked with a * are required.</em></p>
+                    {% csrf_token %}
+                    <!-- delivery details form -->
+                    {% crispy order_form %}
+                    <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                    <div class="col-12 ">
+                        {% if user.is_authenticated %}
+                        <!-- if user is authenticated, ask to save details -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="save-details"
+                                name="save-details">
+                            <label class="form-check-label" for="save-details">
+                                Save my details for future orders
+                            </label>
+                        </div>
+                        {% else %}
+                        <p class="small"><a href="{% url 'account_login' %}">Sign in</a> or <a
+                                href="{% url 'account_signup' %}">register</a> to save your details.</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-12 my-2">
+                        <hr>
+                    </div>
+                    <div class="col-12 my-2">
+                        <!-- card payment form -->
+                        <div class="mb-2">Payment</div>
+                        <div id="card-element"></div>
+                        <!-- card errors div -->
+                        <div id="card-errors" role="alert"></div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-4 offset-xl-4 my-2">
+                        <a href="{% url 'view_cart' %}" class="btn btn-brand-primary w-100">Update Cart</a>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-4 my-2">
+                        <button id="submit-order" class="btn btn-brand-primary w-100">Submit Order *</button>
+                    </div>
+                    <div class="col-12 col-md-6 offset-md-6 text-end highlight">
+                        * Your card will be charged £{{ grand_total }}
+                    </div>
+                </form>
+            </section>
+        </div>
+        <div class="col-12 col-lg-6">
+            <section class="content-panel p-3 mb-5">
+                <div class="row">
+                    <!-- order summary -->
+                    <h2 class="text-center mb-3">Your Order</h2>
+                    <div class="container-fluid">
+                        <!-- order items -->
+                        {% for item in cart_contents %}
+                        <div class="row align-items-center mb-3">
+                            <div class="col-12 col-md-6 col-lg-12 col-xl-6 mb-2 mb-md-0 mb-lg-2 mb-xl-0">
+                                <div class="d-flex">
+                                    <div class="product-image-flex pe-1">
+                                        <img src="{{ item.image }}" class="w-100" alt="Product preview image">
+                                    </div>
+                                    <div class="drawing-image-flex ps-1">
+                                        <img src="{{ item.drawing_image }}" class="drawing-thumbnail" alt="Drawing preview image">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                <ul class="list-group w-100">
+                                    <li class="list-group-item">
+                                        <strong>Product: </strong><span class="float-end">{{ item.name }}</span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Doodle: </strong> <span class="float-end">{% if item.drawing == "0" %}
+                                            Current Sketchbook Doodle {% else %} Saved Doodle
+                                            {{ item.drawing }} {% endif %}
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Quantity/Cost: </strong><span class="float-end">{{ item.quantity }} @
+                                            £{{ item.price_each }} {% if item.quantity > 1 %}each{% endif %}</span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Subtotal: </strong><span
+                                            class="highlight float-end">£{{ item.price }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <hr class="mb-3">
+                        {% endfor %}
+                    </div>
+                    <!-- order totals -->
+                    <div class="col-9 col-sm-6 offset-3 offset-sm-6 text-end mb-3">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span class=highlight>£{{ items_total }}</span> total
+                            </li>
+                            <li class="list-group-item">
+                                + <span class=highlight>£{{ delivery }}</span> delivery
+                            </li>
+                        </ul>
+                        <hr>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                Grand Total: <span class=highlight>£{{ grand_total }}</span>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div id="loading-overlay" class="position-fixed top-0 left-0 w-100 h-100">
+    <div class="d-flex align-items-center justify-content-center w-100 h-100">
+        <div id="loading-spinner" class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block page_js %}
+<!-- load cart javascript file -->
+<script src="{% static 'cart/js/cart.js' %}"></script>
+<!-- render stripe variables -->
+{{ stripe_public_key|json_script:"id_stripe_public_key" }}
+{{ client_secret|json_script:"id_client_secret" }}
+<!-- render shopping cart as json -->
+{{ current_drawing_in_cart|json_script:"current_drawing_in_cart"}}
+<!-- load checkout javascript file -->
+<script src="{% static 'orders/js/checkout.js' %}"></script>
+{% endblock %}
